@@ -1,6 +1,9 @@
 // src/App.jsx
+import { useState } from 'react'
+import './App.css'
 
-import './App.css';
+import IngredientList from './components/IngredientList.jsx'
+import BurgerStack from './components/BurgerStack.jsx'
 
 export const availableIngredients = [
   { name: 'Kaiser Bun', color: 'saddlebrown' },
@@ -17,17 +20,33 @@ export const availableIngredients = [
   { name: 'Onion', color: 'lightyellow' },
   { name: 'Cheddar Cheese', color: '#FDE18B' },
   { name: 'Swiss Cheese', color: '#F1E1A8' },
-];
+]
 
 const App = () => {
+  const [stack, setStack] = useState([])
+
+  const [customerStack, setCustomerStack] = useState([])
+
+  const addToBurger = (ingredient) => {
+    setStack([...stack, ingredient])
+    console.log(stack)
+  }
+
+  const removeFromBurger = (idx) => {
+    const updatedStack = stack.filter((existingItem, index) => index !== idx)
+    setStack(updatedStack)
+  }
+
   return (
     <main>
       <h1>Burger Stacker</h1>
       <section>
-      {/* List & Stack components */}
+        <IngredientList addToBurger={addToBurger} availableIngredients={availableIngredients}/>
+        <BurgerStack removeFromBurger={removeFromBurger} stack={stack}/>
       </section>
     </main>
-  );
-};
+  )
+}
+
 
 export default App;
